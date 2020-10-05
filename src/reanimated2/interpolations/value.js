@@ -6,7 +6,7 @@ export default function interpolateValue(v, l, r, a, b, type) {
   var t = typeof b;
   var c;
   if (t === 'boolean' || t === null) {
-    return this.interpolateContant.apply(this, [b]);
+    return this.interpolateConstant.apply(this, [b]);
   }
   if (t === 'number') {
     return this.interpolateNumber.apply(this, [v, l, r, a, b, type]);
