@@ -6,7 +6,7 @@ import interpolateDate from './date';
 import interpolateNumber from './number';
 import interpolateNumberArray from './numberArray';
 import interpolateObject from './object';
-import interpolateColor from './color';
+import {interpolateColor} from './color';
 import interpolateString from './string';
 import interpolateValue from './value';
 
