@@ -45,7 +45,7 @@ export function cancelAnimation(sharedValue) {
 export function withTiming(toValue, userConfig, callback) {
   'worklet';
   // check toValue
-  assertNumber(toValue, 'withTiming');
+  // assertNumber(toValue, 'withTiming');
 
   return defineAnimation(toValue, () => {
     'worklet';
@@ -81,6 +81,7 @@ export function withTiming(toValue, userConfig, callback) {
         Extrapolate.EXTEND
       );
       animation.progress = newProgress;
+      console.log('timing', animation.progress, current, toValue);
       return false;
     }
 
