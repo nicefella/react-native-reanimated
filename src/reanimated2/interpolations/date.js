@@ -1,4 +1,4 @@
-export default function (t, a, b) {
+export default function(t, a, b) {
   'worklet';
   var d = new Date();
   a = +a;

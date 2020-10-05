@@ -1,28 +1,28 @@
 import number from './number.js';
 
-var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g,
-  reB = new RegExp(reA.source, 'g');
+var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g;
+var reB = new RegExp(reA.source, 'g');
 
 function zero(b) {
-  return function () {
+  return function() {
     return b;
   };
 }
 
 function one(b) {
-  return function (t) {
+  return function(t) {
     return b(t) + '';
   };
 }
 
-export default function (a, b) {
-  var bi = (reA.lastIndex = reB.lastIndex = 0), // scan index for next number in b
-    am, // current match in a
-    bm, // current match in b
-    bs, // string preceding current number in b, if any
-    i = -1, // index in s
-    s = [], // string constants and placeholders
-    q = []; // number interpolators
+export default function(a, b) {
+  var bi = (reA.lastIndex = reB.lastIndex = 0); // scan index for next number in b
+  var am; // current match in a
+  var bm; // current match in b
+  var bs; // string preceding current number in b, if any
+  var i = -1; // index in s
+  var s = []; // string constants and placeholders
+  var q = []; // number interpolators
 
   // Coerce inputs to strings.
   (a = a + ''), (b = b + '');
@@ -52,7 +52,7 @@ export default function (a, b) {
     } else {
       // interpolate non-matching numbers
       s[++i] = null;
-      q.push({i: i, x: number(am, bm)});
+      q.push({ i: i, x: number(am, bm) });
     }
     bi = reB.lastIndex;
   }
@@ -76,7 +76,7 @@ export default function (a, b) {
       ? one(q[0].x)
       : zero(b)
     : ((b = q.length),
-      function (t) {
+      function(t) {
         for (var i = 0, o; i < b; ++i) {
           s[(o = q[i]).i] = o.x(t);
         }

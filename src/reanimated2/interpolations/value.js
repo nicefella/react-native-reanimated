@@ -1,5 +1,5 @@
-import {processColor} from './color';
-import {isNumberArray} from './numberArray';
+import { processColor } from './color';
+import { isNumberArray } from './numberArray';
 
 export default function interpolateValue(v, l, r, a, b, type) {
   'worklet';

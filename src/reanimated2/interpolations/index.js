@@ -29,7 +29,7 @@ export function interpolate(x, input, output, type) {
   'worklet';
   if (x && x.__nodeID) {
     throw new Error(
-      'Reanimated: interpolate from V1 has been renamed to interpolateNode.',
+      'Reanimated: interpolate from V1 has been renamed to interpolateNode.'
     );
   }
   const length = input.length;
@@ -53,6 +53,6 @@ export function interpolate(x, input, output, type) {
   }
   return api.interpolateValue.apply(
     api,
-    [x].concat(narrowedInput).concat(type),
+    [x].concat(narrowedInput).concat(type)
   );
 }

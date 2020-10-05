@@ -1,11 +1,6 @@
 import { Extrapolate } from '../derived/interpolate';
-import {
-  internalInterpolate,
-  internalInterpolateObject,
-  internalInterpolateValue,
-} from './interpolationTypes';
 
-/* function internalInterpolate(x, l, r, ll, rr, type) {
+function internalInterpolate(x, l, r, ll, rr, type) {
   'worklet';
   if (r - l === 0) return ll;
   const progress = (x - l) / (r - l);
@@ -31,7 +26,7 @@ import {
     }
   }
   return val;
-} */
+}
 
 export function interpolate(x, input, output, type) {
   'worklet';
@@ -59,9 +54,5 @@ export function interpolate(x, input, output, type) {
       }
     }
   }
- // return internalInterpolate.apply({}, [x].concat(narrowedInput).concat(type));
- if (typeof output[0] === 'object') {
-  return internalInterpolateObject.apply({}, [x, output[0], output[1], type]);
-}
-return internalInterpolate.apply({}, [x].concat(narrowedInput).concat(type));
+  return internalInterpolate.apply({}, [x].concat(narrowedInput).concat(type));
 }

@@ -1,6 +1,6 @@
-import numberArray, {isNumberArray} from './numberArray.js';
+import numberArray, { isNumberArray } from './numberArray.js';
 
-export default function (t, a, b) {
+export default function(t, a, b) {
   'worklet';
   return (isNumberArray(b) ? numberArray : genericArray)(t, a, b);
 }

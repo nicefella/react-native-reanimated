@@ -8,9 +8,9 @@
 
 /* eslint no-bitwise: 0 */
 
-import {Platform} from 'react-native';
-import {makeRemote, makeShareable} from '../core';
-import {Extrapolate} from './extrapolate';
+import { Platform } from 'react-native';
+import { makeRemote, makeShareable } from '../core';
+import { Extrapolate } from './extrapolate';
 import interpolateNumber from './number';
 
 // var INTEGER = '[-+]?\\d+';
@@ -34,13 +34,13 @@ function getMatchers() {
   if (cachedMatchers.rgb === undefined) {
     cachedMatchers.rgb = new RegExp('rgb' + call(NUMBER, NUMBER, NUMBER));
     cachedMatchers.rgba = new RegExp(
-      'rgba' + call(NUMBER, NUMBER, NUMBER, NUMBER),
+      'rgba' + call(NUMBER, NUMBER, NUMBER, NUMBER)
     );
     cachedMatchers.hsl = new RegExp(
-      'hsl' + call(NUMBER, PERCENTAGE, PERCENTAGE),
+      'hsl' + call(NUMBER, PERCENTAGE, PERCENTAGE)
     );
     cachedMatchers.hsla = new RegExp(
-      'hsla' + call(NUMBER, PERCENTAGE, PERCENTAGE, NUMBER),
+      'hsla' + call(NUMBER, PERCENTAGE, PERCENTAGE, NUMBER)
     );
     cachedMatchers.hex3 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
     cachedMatchers.hex4 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
@@ -342,7 +342,7 @@ function normalizeColor(color) {
         match[3] +
         match[3] + // b
           'ff', // a
-        16,
+        16
       ) >>> 0
     );
   }
@@ -363,7 +363,7 @@ function normalizeColor(color) {
         match[3] + // b
           match[4] +
           match[4], // a
-        16,
+        16
       ) >>> 0
     );
   }
@@ -373,7 +373,7 @@ function normalizeColor(color) {
       (hslToRgb(
         parse360(match[1]), // h
         parsePercentage(match[2]), // s
-        parsePercentage(match[3]), // l
+        parsePercentage(match[3]) // l
       ) |
         0x000000ff) >>> // a
       0
@@ -385,7 +385,7 @@ function normalizeColor(color) {
       (hslToRgb(
         parse360(match[1]), // h
         parsePercentage(match[2]), // s
-        parsePercentage(match[3]), // l
+        parsePercentage(match[3]) // l
       ) |
         parse1(match[4])) >>> // a
       0
@@ -511,7 +511,7 @@ export const hsv2rgb = (h, s, v) => {
 
 export const hsv2color = (h, s, v) => {
   'worklet';
-  const {r, g, b} = hsv2rgb(h, s, v);
+  const { r, g, b } = hsv2rgb(h, s, v);
   return rgbaColor(r, g, b);
 };
 
@@ -550,7 +550,7 @@ const rgbToHsv = (c) => {
     }
     h /= 6;
   }
-  return {h, s, v};
+  return { h, s, v };
 };
 
 const interpolateColorsHSV = (value, inputRange, colors) => {
@@ -560,19 +560,19 @@ const interpolateColorsHSV = (value, inputRange, colors) => {
     value,
     inputRange,
     colorsAsHSV.map((c) => c.h),
-    Extrapolate.CLAMP,
+    Extrapolate.CLAMP
   );
   const s = interpolateNumber(
     value,
     inputRange,
     colorsAsHSV.map((c) => c.s),
-    Extrapolate.CLAMP,
+    Extrapolate.CLAMP
   );
   const v = interpolateNumber(
     value,
     inputRange,
     colorsAsHSV.map((c) => c.v),
-    Extrapolate.CLAMP,
+    Extrapolate.CLAMP
   );
   return hsv2color(h, s, v);
 };
@@ -584,30 +584,30 @@ const interpolateColorsRGB = (value, inputRange, colors) => {
       value,
       inputRange,
       colors.map((c) => red(c)),
-      Extrapolate.CLAMP,
-    ),
+      Extrapolate.CLAMP
+    )
   );
   const g = Math.round(
     interpolateNumber(
       value,
       inputRange,
       colors.map((c) => green(c)),
-      Extrapolate.CLAMP,
-    ),
+      Extrapolate.CLAMP
+    )
   );
   const b = Math.round(
     interpolateNumber(
       value,
       inputRange,
       colors.map((c) => blue(c)),
-      Extrapolate.CLAMP,
-    ),
+      Extrapolate.CLAMP
+    )
   );
   const a = interpolateNumber(
     value,
     inputRange,
     colors.map((c) => opacity(c)),
-    Extrapolate.CLAMP,
+    Extrapolate.CLAMP
   );
   return rgbaColor(r, g, b, a);
 };
@@ -616,7 +616,7 @@ export const interpolateColor = (
   value,
   inputRange,
   outputRange,
-  colorSpace = ColorSpace.RGB,
+  colorSpace = ColorSpace.RGB
 ) => {
   'worklet';
   outputRange = outputRange.map((c) => processColor(c));

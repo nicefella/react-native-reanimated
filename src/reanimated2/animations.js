@@ -71,14 +71,14 @@ export function withTiming(toValue, userConfig, callback) {
 
       const newProgress = config.easing(runtime / config.duration);
 
-   //   const dist =
-   //     ((toValue - current) * (newProgress - progress)) / (1 - progress);
-  //    animation.current += dist;
+      //   const dist =
+      //     ((toValue - current) * (newProgress - progress)) / (1 - progress);
+      //    animation.current += dist;
       animation.current = interpolate(
         newProgress,
         [0, 1],
         [current, toValue],
-        Extrapolate.EXTEND,
+        Extrapolate.EXTEND
       );
       animation.progress = newProgress;
       return false;
