@@ -465,7 +465,8 @@ const clamp = (value, lowerBound, upperBound) => {
 
 export const rgbaColor = (r, g, b, alpha = 1) => {
   'worklet';
-  if (Platform.OS === 'web' || !_WORKLET) {
+ // if (Platform.OS === 'web' || !_WORKLET) {
+  if (Platform.OS === 'web') {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
   const a = alpha * 255;
@@ -579,34 +580,46 @@ const interpolateColorsHSV = (value, inputRange, colors) => {
 
 const interpolateColorsRGB = (value, inputRange, colors) => {
   'worklet';
+  const rm = colors.map((c) => red(c));
   const r = Math.round(
     interpolateNumber(
       value,
-      inputRange,
-      colors.map((c) => red(c)),
+      inputRange[0],
+      inputRange[1],
+      rm[0],
+      rm[1],
       Extrapolate.CLAMP
     )
   );
+  const gm = colors.map((c) => green(c));
   const g = Math.round(
     interpolateNumber(
       value,
-      inputRange,
-      colors.map((c) => green(c)),
+      inputRange[0],
+      inputRange[1],
+      gm[0],
+      gm[1],
       Extrapolate.CLAMP
     )
   );
+  const bm = colors.map((c) => blue(c));
   const b = Math.round(
     interpolateNumber(
       value,
-      inputRange,
-      colors.map((c) => blue(c)),
+      inputRange[0],
+      inputRange[1],
+      bm[0],
+      bm[1],
       Extrapolate.CLAMP
     )
   );
+  const om = colors.map((c) => opacity(c));
   const a = interpolateNumber(
     value,
-    inputRange,
-    colors.map((c) => opacity(c)),
+    inputRange[0],
+    inputRange[1],
+    om[0],
+    om[1],
     Extrapolate.CLAMP
   );
   return rgbaColor(r, g, b, a);
@@ -620,6 +633,7 @@ export const interpolateColor = (
 ) => {
   'worklet';
   outputRange = outputRange.map((c) => processColor(c));
+  console.log(outputRange, inputRange);
   if (colorSpace === ColorSpace.HSV) {
     return interpolateColorsHSV(value, inputRange, outputRange);
   }

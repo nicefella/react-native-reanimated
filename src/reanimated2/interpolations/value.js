@@ -14,7 +14,7 @@ export default function interpolateValue(v, l, r, a, b, type) {
   if (t === 'string') {
     c = processColor(b);
     if (c) {
-      return this.interpolateColor.apply(this, [v, a, c]);
+      return this.interpolateColor.apply(this, [v, [0,1], [a, c]]);
     } else {
       // return this.interpolateString.apply(this, [v, a, b]);
       return b;
