@@ -1,5 +1,7 @@
+import { Extrapolate } from '../derived/interpolate';
 /* global _WORKLET */
 import { Easing } from './Easing';
+import { interpolate } from './interpolations';
 import NativeReanimated from './NativeReanimated';
 
 let IN_STYLE_UPDATER = false;
@@ -69,9 +71,15 @@ export function withTiming(toValue, userConfig, callback) {
 
       const newProgress = config.easing(runtime / config.duration);
 
-      const dist =
-        ((toValue - current) * (newProgress - progress)) / (1 - progress);
-      animation.current += dist;
+   //   const dist =
+   //     ((toValue - current) * (newProgress - progress)) / (1 - progress);
+  //    animation.current += dist;
+      animation.current = interpolate(
+        newProgress,
+        [0, 1],
+        [current, toValue],
+        Extrapolate.EXTEND,
+      );
       animation.progress = newProgress;
       return false;
     }
