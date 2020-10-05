@@ -25,7 +25,7 @@ const api = {
 
 export default api;
 
-export function interpolate(x, input, output, type) {
+export function d3interpolate(x, input, output, type) {
   'worklet';
   if (x && x.__nodeID) {
     throw new Error(

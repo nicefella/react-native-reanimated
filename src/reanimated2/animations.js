@@ -1,7 +1,7 @@
 import { Extrapolate } from '../derived/interpolate';
 /* global _WORKLET */
 import { Easing } from './Easing';
-import { interpolate } from './interpolations';
+import { d3interpolate } from './interpolations';
 import NativeReanimated from './NativeReanimated';
 
 let IN_STYLE_UPDATER = false;
@@ -58,7 +58,7 @@ export function withTiming(toValue, userConfig, callback) {
     }
 
     function timing(animation, now) {
-      const { toValue, progress, startTime, current } = animation;
+      const { toValue, startTime, current } = animation;
 
       const runtime = now - startTime;
 
@@ -74,7 +74,7 @@ export function withTiming(toValue, userConfig, callback) {
       //   const dist =
       //     ((toValue - current) * (newProgress - progress)) / (1 - progress);
       //    animation.current += dist;
-      animation.current = interpolate(
+      animation.current = d3interpolate(
         newProgress,
         [0, 1],
         [current, toValue],
