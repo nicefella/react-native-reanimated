@@ -42,6 +42,73 @@ export function cancelAnimation(sharedValue) {
   sharedValue.value = sharedValue.value; // eslint-disable-line no-self-assign
 }
 
+export function withTimingOriginal(toValue, userConfig, callback) {
+  'worklet';
+  // check toValue
+  assertNumber(toValue, 'withTimingOriginal');
+
+  return defineAnimation(toValue, () => {
+    'worklet';
+    const config = {
+      duration: 300,
+      easing: Easing.inOut(Easing.quad),
+    };
+    if (userConfig) {
+      Object.keys(userConfig).forEach((key) => (config[key] = userConfig[key]));
+    }
+
+    function timing(animation, now) {
+      const { toValue, progress, startTime, current } = animation;
+
+      const runtime = now - startTime;
+
+      if (runtime >= config.duration) {
+        // reset startTime to avoid reusing finished animation config in `start` method
+        animation.startTime = 0;
+        animation.current = toValue;
+        return true;
+      }
+
+      const newProgress = config.easing(runtime / config.duration);
+
+      const dist =
+        ((toValue - current) * (newProgress - progress)) / (1 - progress);
+      animation.current += dist;
+      animation.progress = newProgress;
+      return false;
+    }
+
+    function start(animation, value, now, previousAnimation) {
+      if (
+        previousAnimation &&
+        previousAnimation.type === 'timing' &&
+        previousAnimation.toValue === toValue &&
+        previousAnimation.startTime
+      ) {
+        // to maintain continuity of timing animations we check if we are starting
+        // new timing over the old one with the same parameters. If so, we want
+        // to copy animation timeline properties
+        animation.startTime = previousAnimation.startTime;
+        animation.progress = previousAnimation.progress;
+      } else {
+        animation.startTime = now;
+        animation.progress = 0;
+      }
+      animation.current = value;
+    }
+
+    return {
+      type: 'timing',
+      animation: timing,
+      start,
+      progress: 0,
+      toValue,
+      current: toValue,
+      callback,
+    };
+  });
+}
+
 export function withTiming(toValue, userConfig, callback) {
   'worklet';
   // check toValue
