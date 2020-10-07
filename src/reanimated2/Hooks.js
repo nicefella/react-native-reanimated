@@ -74,6 +74,10 @@ function prepareAnimation(animatedProp, lastAnimation, lastValue) {
             // it was an animation before, copy its state
             value = lastAnimation.current;
           }
+          else {
+            // it was not an animation but a real object
+            value = lastValue;
+          }
         } else {
           // previously it was a plan value, just set it as starting point
           value = lastValue;
